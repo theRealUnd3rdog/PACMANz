@@ -24,7 +24,7 @@ public class Movement : MonoBehaviour
         if (inputdirection.magnitude >= 0.1) 
         {
             Vector3 movedirection = inputdirection * speed;
-            rb.AddForce(movedirection, ForceMode.Force);
+            rb.velocity = movedirection;
         }
     }
 }
