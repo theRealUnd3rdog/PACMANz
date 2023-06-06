@@ -19,12 +19,17 @@ public class Movement : MonoBehaviour
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-        Vector3 inputdirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
+        Vector3 inputDirection = new Vector3(horizontalInput, 0, verticalInput).normalized;
 
-        if (inputdirection.magnitude >= 0.1) 
+        if (inputDirection.magnitude >= 0.1)
         {
-            Vector3 movedirection = inputdirection * speed;
-            rb.velocity = movedirection;
+            Vector3 moveDirection = inputDirection * speed;
+
+            // Check if there is a valid turn in the desired direction
+            if (moveDirection.magnitude >= 0.1)
+            {
+                rb.velocity = moveDirection;
+            }
         }
     }
 }
