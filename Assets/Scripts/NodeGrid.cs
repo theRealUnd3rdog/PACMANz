@@ -1,11 +1,17 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 [InitializeOnLoad]
-#endif
 public class NodeGrid : MonoBehaviour
 {
+    private const string _gridName = "GridContainer";
+
     [HideInInspector]
     [SerializeField]
     [Range(1, 40)]
@@ -48,6 +54,7 @@ public class NodeGrid : MonoBehaviour
     private float _previousYOffset;
     private float _previousGizmoRadius;
 
+
 #if UNITY_EDITOR
     static NodeGrid()
     {
@@ -65,16 +72,6 @@ public class NodeGrid : MonoBehaviour
         _previousZOffset = _zOffset;
         _previousYOffset = _yOffset;
         _previousGizmoRadius = _gizmoRadius;
-
-        GenerateGrid();
-    }
-
-    private void Update()
-    {
-        if (HasParameterChanged())
-        {
-            GenerateGrid();
-        }
     }
 
     private bool HasParameterChanged()
@@ -88,13 +85,22 @@ public class NodeGrid : MonoBehaviour
                _gizmoRadius != _previousGizmoRadius;
     }
 
+    private bool IsGridAlreadyGenerated()
+    {
+        if (this.transform.GetChild(0).name == _gridName)
+            return true;
+
+        return false;
+    }
+
 #if UNITY_EDITOR
     private static void CheckNodeGrid()
     {
         NodeGrid nodeGrid = FindObjectOfType<NodeGrid>();
 
-        if (nodeGrid != null && nodeGrid.HasParameterChanged())
+        if (nodeGrid != null && nodeGrid.HasParameterChanged() && !nodeGrid.IsGridAlreadyGenerated())
         {
+            Debug.Log("Change in values!");
             nodeGrid.GenerateGrid();
 
             // Update the previous parameter values
@@ -109,13 +115,16 @@ public class NodeGrid : MonoBehaviour
     }
 #endif
 
+    /// <Summary>
+    /// This generates a grid
+    /// </Summary>
     public void GenerateGrid()
     {
         // Clear previous grid
         ClearGrid();
 
         // Create a new container for the grid
-        _gridContainer = new GameObject("GridContainer").transform;
+        _gridContainer = new GameObject(_gridName).transform;
         _gridContainer.transform.SetParent(this.transform);
         _gridContainer.localPosition = new Vector3(_xOffset, _yOffset, _zOffset);
 
