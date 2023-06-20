@@ -81,7 +81,7 @@ public class NodeGridEditor : EditorWindow
         _gridSerializedObject.ApplyModifiedProperties();
 
         EditorGUILayout.Space(25);
-        if (GUILayout.Button("Generate Grid"))
+        if (GUILayout.Button("Generate Grid") && !_nodeGrid.IsGridAlreadyGenerated())
         {
             _nodeGrid.GenerateGrid();
         }

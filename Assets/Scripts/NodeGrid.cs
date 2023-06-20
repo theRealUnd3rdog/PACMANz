@@ -45,6 +45,7 @@ public class NodeGrid : MonoBehaviour
     private float _gizmoRadius; // Gizmo radius
 
     private Transform _gridContainer; // Parent object to hold the nodes
+    public List<Transform> _gridNodes; // List of nodes
 
     private int _previousRowCount;
     private int _previousColumnCount;
@@ -85,8 +86,11 @@ public class NodeGrid : MonoBehaviour
                _gizmoRadius != _previousGizmoRadius;
     }
 
-    private bool IsGridAlreadyGenerated()
+    public bool IsGridAlreadyGenerated()
     {
+        if (this.transform.childCount == 0)
+            return false;
+
         if (this.transform.GetChild(0).name == _gridName)
             return true;
 
@@ -98,7 +102,7 @@ public class NodeGrid : MonoBehaviour
     {
         NodeGrid nodeGrid = FindObjectOfType<NodeGrid>();
 
-        if (nodeGrid != null && nodeGrid.HasParameterChanged() && !nodeGrid.IsGridAlreadyGenerated())
+        if (nodeGrid != null && nodeGrid.HasParameterChanged())
         {
             Debug.Log("Change in values!");
             nodeGrid.GenerateGrid();
@@ -124,7 +128,11 @@ public class NodeGrid : MonoBehaviour
         ClearGrid();
 
         // Create a new container for the grid
-        _gridContainer = new GameObject(_gridName).transform;
+        if (!IsGridAlreadyGenerated())
+            _gridContainer = new GameObject(_gridName).transform;
+        else
+            _gridContainer = this.transform.GetChild(0);
+
         _gridContainer.transform.SetParent(this.transform);
         _gridContainer.localPosition = new Vector3(_xOffset, _yOffset, _zOffset);
 

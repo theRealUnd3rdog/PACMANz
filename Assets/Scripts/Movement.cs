@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
@@ -5,17 +6,25 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    private NodeGrid _nodeGrid;
     private Rigidbody rb;
-    public float speed;
+
+    [Header("Movement Variables")]
+    [SerializeField] private float speed;
+
+    private void Awake()
+    {
+        _nodeGrid = FindObjectOfType<NodeGrid>();
+    }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
