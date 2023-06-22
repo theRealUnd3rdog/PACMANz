@@ -45,7 +45,8 @@ public class NodeGrid : MonoBehaviour
     private float _gizmoRadius; // Gizmo radius
 
     private Transform _gridContainer; // Parent object to hold the nodes
-    public List<Transform> _gridNodes; // List of nodes
+    public List<Transform> gridNodes; // List of nodes
+    public Transform startNode {get; set;} // the start node
 
     private int _previousRowCount;
     private int _previousColumnCount;
@@ -62,6 +63,18 @@ public class NodeGrid : MonoBehaviour
         EditorApplication.update += CheckNodeGrid;
     }
 #endif
+
+    private void Awake()
+    {
+        foreach (Transform node in gridNodes)
+        {
+            if (node.CompareTag("StartNode"))
+            {
+                startNode = node;
+                break;
+            }
+        }
+    }
 
     private void Start()
     {
@@ -147,6 +160,9 @@ public class NodeGrid : MonoBehaviour
                 newNode.AddComponent<Node>();
                 newNode.transform.position = spawnPosition;
                 newNode.transform.parent = _gridContainer;
+
+                // Add nodes to the list
+                gridNodes.Add(newNode.transform);
             }
         }
     }
@@ -156,6 +172,7 @@ public class NodeGrid : MonoBehaviour
         if (_gridContainer != null)
         {
             DestroyImmediate(_gridContainer.gameObject);
+            gridNodes.Clear();
         }
     }
 
@@ -168,5 +185,26 @@ public class NodeGrid : MonoBehaviour
         {
             Gizmos.DrawWireSphere(node.transform.position, _gizmoRadius);
         }
+    }
+
+    public Transform GetNextClosestNode(Transform currentPlayerNode)
+    {
+        float shortestDistance = float.MaxValue;
+        Transform nextNode = null;
+
+        foreach (Transform node in gridNodes)
+        {
+            if (node != currentPlayerNode)
+            {
+                float distance = Vector3.Distance(currentPlayerNode.position, node.position);
+                if (distance < shortestDistance)
+                {
+                    shortestDistance = distance;
+                    nextNode = node;
+                }
+            }
+        }
+
+        return nextNode;
     }
 }
