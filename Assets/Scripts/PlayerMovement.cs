@@ -29,6 +29,14 @@ public class PlayerMovement : MonoBehaviour
     private float _horizontalInput = 0f;
     private float _verticalInput = 0f;
 
+    // wall detection
+    [Header("Wall detection")]
+    [SerializeField] private LayerMask _wallMask;
+
+    [Tooltip("This adds an added ray distance on top of the unit distance for minor errors")]
+    [Range(0f, 2f)]
+    [SerializeField] private float _addedRayDistance;
+
     // privates
     private Transform _currentNode; // Current node the player is on
     private Coroutine _movementCor; // Coroutine to run the whole movement
@@ -119,6 +127,11 @@ public class PlayerMovement : MonoBehaviour
             // Check if vertical input is greater, move along the z-axis
             _currentMoveDirection = new Vector3(0f, 0f, Mathf.Sign(vertical));
         }
+
+        if (IsWall())
+        {
+            _currentMoveDirection = _previousMoveDirection;
+        }
     }
 
     public Transform GetNextNodeInDirection(NodeGrid nodeGrid, Transform currentPlayerNode, Vector3 direction)
@@ -150,7 +163,9 @@ public class PlayerMovement : MonoBehaviour
             // Get the next node in the calculated move direction
             Transform nextNode = GetNextNodeInDirection(_nodeGrid, _currentNode, _currentMoveDirection);
 
-            if (nextNode != null)
+            // Check if there is a wall
+
+            if (nextNode != null && !IsWall())
             {
                 MovementState = State.Moving;
                 
@@ -196,5 +211,39 @@ public class PlayerMovement : MonoBehaviour
 
         // Update the visual direction of the object
         RotatePlayer();
+    }
+
+    private bool IsWall()
+    {
+        // 4 directional
+        Vector3[] directions = {Vector3.forward, Vector3.back, Vector3.left, Vector3.right};
+        RaycastHit[] hits = new RaycastHit[directions.Length];
+
+        // check all directions
+        for (int i = 0; i < directions.Length; i++)
+        {
+            if (_currentMoveDirection == directions[i])
+            {
+                if (Physics.Raycast(_rigidbody.position, directions[i], out hits[i], (_nodeGrid.unitDistance + _addedRayDistance), _wallMask))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Vector3[] directions = {Vector3.forward, Vector3.back, Vector3.left, Vector3.right};
+
+        NodeGrid nodeGrid = FindObjectOfType<NodeGrid>();
+        float rayDistance = nodeGrid.unitDistance;
+
+        for (int i = 0; i < directions.Length; i++)
+        {
+            Debug.DrawLine(transform.position, transform.position + (directions[i] * (rayDistance + _addedRayDistance)), Color.yellow);
+        }
     }
 }

@@ -27,6 +27,11 @@ public class NodeGrid : MonoBehaviour
     [Range(0.25f, 6f)]
     private float _unitDistance; // Distance between nodes
 
+    public float unitDistance
+    {
+        get { return _unitDistance; }
+    }
+
     [HideInInspector]
     [SerializeField]
     private float _xOffset; // Offset on the x axis of the grid container
