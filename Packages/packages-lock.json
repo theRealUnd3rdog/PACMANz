@@ -7,13 +7,6 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.limworks.urpssrpackage": {
-      "version": "https://github.com/JoshuaLim007/Unity-ScreenSpaceReflections-URP.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "babea6495fe60d67653d1d713543763897174612"
-    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -92,7 +85,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
-      "version": "2.0.17",
+      "version": "2.0.18",
       "depth": 0,
       "source": "registry",
       "dependencies": {
