@@ -6,7 +6,8 @@ public class OptionsMenu : MonoBehaviour
 {
     public void Back()
     {
-
+        gameObject.SetActive(false);
+        GameObject.Find("MainMenu").SetActive(true);
     }
 
     public void arrowkey()

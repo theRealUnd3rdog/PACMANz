@@ -17,6 +17,7 @@ public class LevelSelection : MonoBehaviour
 
     public void Back()
     {
-        
+        gameObject.SetActive(false);
+        GameObject.Find("MainMenu").SetActive(true);
     }
 }
