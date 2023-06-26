@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "610664581165",
+    "project_id": "pacmanz",
+    "storage_bucket": "pacmanz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610664581165:android:68b7ba6c6796b6cf2b90a4",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.Pacman"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "610664581165-67g70938e19udguj8o4l25nggsntsl88.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDU77Vqb8AkI3cdq5xA1_njOClKm639Up8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "610664581165-67g70938e19udguj8o4l25nggsntsl88.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
