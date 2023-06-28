@@ -62,8 +62,8 @@ public class NodeGrid : MonoBehaviour
 
     private Transform _gridContainer; // Parent object to hold the nodes
     public bool stopGenerating;
-    public List<Transform> gridNodes; // List of nodes
-    public Transform startNode {get; set;} // the start node
+    public List<Node> gridNodes; // List of nodes
+    public Node startNode {get; set;} // the start node
 
     private int _previousRowCount;
     private int _previousColumnCount;
@@ -85,9 +85,9 @@ public class NodeGrid : MonoBehaviour
     {
         Instance = this;
 
-        foreach (Transform node in gridNodes)
+        foreach (Node node in gridNodes)
         {
-            if (node.CompareTag("StartNode"))
+            if (node.type == NodeType.StartNode)
             {
                 startNode = node;
                 break;
@@ -188,7 +188,7 @@ public class NodeGrid : MonoBehaviour
                 newNode.transform.parent = _gridContainer;
 
                 // Add nodes to the list
-                gridNodes.Add(newNode.transform);
+                gridNodes.Add(nodeComponent);
             }
         }
 
@@ -202,24 +202,24 @@ public class NodeGrid : MonoBehaviour
         {
             for (int column = 0; column < _columnCount; column++)
             {
-                Node currentNode = gridNodes[row * _columnCount + column].GetComponent<Node>();
+                Node currentNode = gridNodes[row * _columnCount + column];
                 currentNode.neighbors = new Node[4];
 
                 // Connect left neighbor
                 if (column > 0)
-                    currentNode.neighbors[0] = gridNodes[row * _columnCount + column - 1].GetComponent<Node>();
+                    currentNode.neighbors[0] = gridNodes[row * _columnCount + column - 1];
 
                 // Connect right neighbor
                 if (column < _columnCount - 1)
-                    currentNode.neighbors[1] = gridNodes[row * _columnCount + column + 1].GetComponent<Node>();
+                    currentNode.neighbors[1] = gridNodes[row * _columnCount + column + 1];
 
                 // Connect up neighbor
                 if (row > 0)
-                    currentNode.neighbors[2] = gridNodes[(row - 1) * _columnCount + column].GetComponent<Node>();
+                    currentNode.neighbors[2] = gridNodes[(row - 1) * _columnCount + column];
 
                 // Connect down neighbor
                 if (row < _rowCount - 1)
-                    currentNode.neighbors[3] = gridNodes[(row + 1) * _columnCount + column].GetComponent<Node>();
+                    currentNode.neighbors[3] = gridNodes[(row + 1) * _columnCount + column];
             }
         }
     }
@@ -249,15 +249,15 @@ public class NodeGrid : MonoBehaviour
         float shortestDistance = float.MaxValue;
         Transform nextNode = null;
 
-        foreach (Transform node in gridNodes)
+        foreach (Node node in gridNodes)
         {
             if (node != currentPlayerNode)
             {
-                float distance = Vector3.Distance(currentPlayerNode.position, node.position);
+                float distance = Vector3.Distance(currentPlayerNode.position, node.transform.position);
                 if (distance < shortestDistance)
                 {
                     shortestDistance = distance;
-                    nextNode = node;
+                    nextNode = node.transform;
                 }
             }
         }

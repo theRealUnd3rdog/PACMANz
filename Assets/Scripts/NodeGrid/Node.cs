@@ -2,8 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum NodeType
+{
+    Default,
+    StartNode, // Starting position for the player
+    GhostNode, // Nodes that cannot be reached
+    DoorNode, // Nodes that are doors
+}
+
 public class Node : MonoBehaviour
 {
+    public NodeType type = NodeType.Default;
     public int x; // x-coordinate of the node in the grid
     public int y; // y-coordinate of the node in the grid
     public Node[] neighbors; // array of neighboring nodes (up, down, left, right)

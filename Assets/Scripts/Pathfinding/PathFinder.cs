@@ -47,6 +47,13 @@ public class PathFinder : MonoBehaviour
                     continue;
                 }
 
+                // Check if the neighbor is a cardinal neighbor (up, down, left, or right)
+                Vector2Int direction = new Vector2Int(neighbor.x - currentNode.x, neighbor.y - currentNode.y);
+                if (Mathf.Abs(direction.x) + Mathf.Abs(direction.y) != 1)
+                {
+                    continue; // Skip diagonal neighbors
+                }
+
                 // Calculate the cost to reach the neighbor from the current node
                 int cost = currentNode.cost + CalculateDistance(currentNode, neighbor);
 
@@ -74,10 +81,12 @@ public class PathFinder : MonoBehaviour
         return null;
     }
 
-    // Helper method to calculate the Manhattan distance between two nodes
+    // Helper method to calculate the Euclidean distance between two nodes
     private int CalculateDistance(Node nodeA, Node nodeB)
     {
-        return Mathf.Abs(nodeA.x - nodeB.x) + Mathf.Abs(nodeA.y - nodeB.y);
+        int dx = Mathf.Abs(nodeA.x - nodeB.x);
+        int dy = Mathf.Abs(nodeA.y - nodeB.y);
+        return Mathf.RoundToInt(Mathf.Sqrt(dx * dx + dy * dy));
     }
 
     // Helper method to generate the final path from start to end

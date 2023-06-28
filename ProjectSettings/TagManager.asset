@@ -6,8 +6,6 @@ TagManager:
   tags:
   - Turnable
   - Wall
-  - StartNode
-  - DoorNode
   layers:
   - Default
   - TransparentFX
@@ -16,10 +14,10 @@ TagManager:
   - Water
   - UI
   - Walls
-  - 
-  - 
-  - 
-  - 
+  - PPPlayer
+  - 3DUI
+  - Player
+  - Enemy
   - 
   - 
   - 
