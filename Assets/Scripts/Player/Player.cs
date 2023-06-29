@@ -36,7 +36,7 @@ public class Player : MonoBehaviour , IKillable
         ScoreManager.OnPelletCountCompleted += StopMovement;
     }
 
-    private void Destroy()
+    private void OnDestroy()
     {
         _movement.OnCurrentDirectionChanged -= PlayTapSound;
         _movement.OnMovementStateChanged -= PlayAmbience;

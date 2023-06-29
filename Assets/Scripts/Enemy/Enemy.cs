@@ -23,7 +23,7 @@ public abstract class Enemy : MonoBehaviour , ICollidePlayer
     [Range(1f, 40f)] [SerializeField] protected float _maxDistanceForRandomNode;
     [Range(2f, 10f)] [SerializeField] protected float _durationToFollowPlayer; 
     protected float _timerOnFollow; // current timer to following the player
-    [Range(0.1f, 0.7f)] [SerializeField] protected float _probabilityToFollow;
+    [Range(0f, 0.7f)] [SerializeField] protected float _probabilityToFollow;
 
     protected PlayerMovement _playerMovement;
     protected Node _currentNode; // Current node the enemy is in
@@ -90,7 +90,7 @@ public abstract class Enemy : MonoBehaviour , ICollidePlayer
         //_playerMovement.OnCurrentNodeChanged += FollowPlayer;
     }
 
-    public virtual void Destroy()
+    public virtual void OnDestroy()
     {
         TrappedChange -= OnTrappedStateChanged;
         //_playerMovement.OnCurrentNodeChanged -= FollowPlayer;

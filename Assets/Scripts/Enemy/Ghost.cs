@@ -30,9 +30,9 @@ public class Ghost : Enemy
         _animator.SetBool("trapped", trap);
     }
 
-    public override void Destroy()
+    public override void OnDestroy()
     {
-        base.Destroy();
+        base.OnDestroy();
     }
 
     public override void OnTriggerEnter(Collider collider)

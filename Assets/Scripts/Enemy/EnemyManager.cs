@@ -24,7 +24,7 @@ public class EnemyManager : MonoBehaviour
         ScoreManager.OnPelletCountCompleted += StopAllEnemies;
     }
 
-    private void Destroy()
+    private void OnDestroy()
     {
         ScoreManager.OnPelletCountCompleted -= StopAllEnemies;
     }

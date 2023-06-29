@@ -45,7 +45,7 @@ public class PlayerUI : MonoBehaviour
         _pelletText.text = string.Format("{0}/{1}", ScoreManager.Instance.pelletCount, _totalNoOfPellets);
     }
 
-    private string FormatTime(float time)
+    public static string FormatTime(float time)
     {
         int minutes = Mathf.FloorToInt(time / 60f);
         int seconds = Mathf.FloorToInt(time % 60f);

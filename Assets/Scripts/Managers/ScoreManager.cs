@@ -26,7 +26,7 @@ public class ScoreManager : MonoBehaviour
         int totalNoOfPellets = PelletManager.Instance.pellets.Count;
         int noOfPelletsCollected = ScoreManager.Instance.pelletCount;
 
-        if (noOfPelletsCollected == totalNoOfPellets)
+        if (noOfPelletsCollected >= totalNoOfPellets)
         {
             Debug.Log("You won!");
             StopScore = true;
@@ -51,6 +51,6 @@ public class ScoreManager : MonoBehaviour
         if (StopScore)
             return;
 
-        timeSpent += Time.unscaledDeltaTime;
+        timeSpent += Time.deltaTime;
     }
 }

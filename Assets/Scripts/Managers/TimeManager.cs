@@ -5,7 +5,6 @@ using UnityEngine;
 public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
-    private bool gamePaused = false;
     [SerializeField] public static float hitstopFrameDelay {get;} = 0.032f;
     private bool hitStopping = true;
 

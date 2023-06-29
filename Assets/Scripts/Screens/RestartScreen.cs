@@ -4,44 +4,41 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using EZCameraShake;
 
-public class RestartScreen : MonoBehaviour
+public class RestartScreen : BasicScreen
 {
     public static RestartScreen Instance;
-
-    // UI
-    private CanvasGroup _restartGroup;
     private Coroutine _restartCoroutine;
-
-    [Header("UI")]
-    [SerializeField] private float _transitionDuration;
 
     [Header("Audio")]
     [SerializeField] private AudioSource _deadScreenSource;
 
-    private void Awake()
+    public override void Awake()
     {
         Instance = this;
 
-        _restartGroup = GetComponent<CanvasGroup>();
+        base.Awake();
     }
 
-    public void Restart()
+    public override void Restart()
     {
         if (_restartCoroutine != null)
             StopCoroutine(_restartCoroutine);
 
-        SceneHandler.Instance.LoadLevel(SceneManager.GetActiveScene().buildIndex);
+        base.Restart();
     }
 
-    public void GoToMenu()
+    public override void GoToMenu()
     {
+        if (_restartCoroutine != null)
+            StopCoroutine(_restartCoroutine);
 
+        base.GoToMenu();
     }
 
     public void ShowRestart()
     {
-        _restartGroup.blocksRaycasts = true;
-        _restartGroup.interactable = true;
+        _group.blocksRaycasts = true;
+        _group.interactable = true;
 
         // post processing
         PPManager.PPInstance.StopPPCoroutines();
@@ -77,7 +74,7 @@ public class RestartScreen : MonoBehaviour
 
             Time.timeScale = Mathf.Lerp(1f, 0.3f, timeScaleDuration);
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            _restartGroup.alpha = Mathf.Lerp(0, 1f, normalizedTime);
+            _group.alpha = Mathf.Lerp(0, 1f, normalizedTime);
 
             yield return null;
         }
